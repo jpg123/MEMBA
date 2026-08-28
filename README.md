@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# MEMBER
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**MEMBER** means **Manitoba Estimated Burn Mortality Risk**. It is a research application for displaying an estimated inpatient burn mortality risk.
 
-Currently, two official plugins are available:
+Repository: https://github.com/jpg123/burn-mortality-MEMBER
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Purpose
 
-## React Compiler
+The app presents the output of the fitted no-etiology logistic-regression model developed from the Manitoba burn registry analysis. It is intended for research, education and manuscript figure preparation. It does not replace clinical judgment or institutional protocols.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Model calculation
 
-## Expanding the ESLint configuration
+The app combines the entered patient information and applies the fitted model coefficients. The resulting linear predictor is converted to an estimated risk using:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+`Estimated risk = 1 / (1 + exp(-linear predictor))`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The model uses age with restricted cubic spline terms, sex, FSA-derived rurality, ICU use, housing status, TBSA, length of stay, procedures, total PRBC units, ICU days, inhalation injury and anatomical location indicators. Etiology is not included.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Blank numeric fields use the corresponding training-cohort median. Missing Total PRBC values are treated as zero because most patients did not receive transfusion. A separate transfusion yes/no variable is not used.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Languages
+
+The interface can be selected in English, French or Spanish. MEMBER remains the app name in every language. The FAQ/README content is currently maintained in English.
+
+## Sharing
+
+**Share App** opens MEMBER at rest in English. **Share Data** shares the selected figure example. iPhone and iPad can use Messages or iMessage. Android native sharing depends on the browser and device; when it is unavailable, the app copies the link for pasting into a message.
+
+## Validation
+
+The manuscript reports nested stratified cross-validation as internal validation within the study cohort. External validation at another burn centre remains outstanding.
+
+## Development
+
+Install dependencies and start the development server:
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the production build:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+The fitted model artifact is stored at `src/model/no-etiology-logistic.json`. The main interface is in `src/App.tsx` and styling is in `src/App.css`.

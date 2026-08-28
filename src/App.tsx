@@ -68,6 +68,18 @@ type LocaleStrings = {
   locationLabels: Record<string, string>
 }
 
+const githubAppUrl = 'https://github.com/jpg123/burn-mortality-MEMBER'
+const readmeItems = [
+  { question: 'What is MEMBER?', answer: 'MEMBER means Manitoba Estimated Burn Mortality Risk. It is a research application that displays an estimated inpatient burn mortality risk from a fitted logistic-regression model.' },
+  { question: 'How is the estimated risk calculated?', answer: 'The app combines the entered patient information, including age, burn size, inhalation injury, intensive care, hospital course and anatomical location. The fitted model gives each piece of information a weight based on its relationship with mortality in this study, combines the weighted information and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
+  { question: 'Which information is used?', answer: 'The model uses age, sex, FSA-derived rurality, ICU use, housing status, TBSA, length of stay, procedures, total PRBC units, ICU days, inhalation injury and anatomical location. Etiology is not included.' },
+  { question: 'How are missing transfusion values handled?', answer: 'Total PRBC is recorded as the number of packed red blood cell units. Missing values are treated as zero because most patients did not receive transfusion. A separate transfusion yes/no variable is not used.' },
+  { question: 'How does sharing work?', answer: 'Share App opens MEMBER at rest in English. Share Data shares the selected figure example. iPhone and iPad can use Messages or iMessage. On Android, native sharing depends on the browser and device; if unavailable, the link is copied for pasting into a message.' },
+  { question: 'What languages are available?', answer: 'The interface can be selected in English, French or Spanish. MEMBER remains the app name in every language.' },
+  { question: 'What validation has been performed?', answer: 'The manuscript reports nested stratified cross-validation as internal validation within this cohort. External validation at another burn centre remains outstanding.' },
+  { question: 'Where is the source information?', answer: 'The complete project README and application source are available in the MEMBER GitHub repository.' },
+]
+
 function deriveRurality(fsa: string) {
   const normalized = fsa.replace(/\s/g, '').toUpperCase().slice(0, 3)
   if (normalized.length < 3) return 'Unknown'
@@ -156,8 +168,8 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationFieldsText: 'Model inputs: age, sex, rurality, ICU use, housing status, TBSA, length of stay, procedures, transfusion, ICU days, inhalation injury and anatomical location.',
     medianIfBlank: 'Training median if blank',
     noneSelected: 'None selected',
-    faqTitle: 'FAQ',
-    faqContact: 'Questions? Email me at',
+    faqTitle: 'FAQ/README',
+    faqContact: 'Project README:',
     faqItems: [
       { question: 'What does the displayed risk mean?', answer: 'It is the estimated mortality risk from the fitted no-etiology logistic-regression model.' },
       { question: 'How is the estimated risk calculated?', answer: 'The app combines the patient information entered, including age, burn size, inhalation injury, intensive care, hospital course and anatomical location. The fitted model gives each piece of information a weight based on its relationship with mortality in this study, combines the weighted information and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
@@ -233,8 +245,8 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationFieldsText: 'Variables du modèle : âge, sexe, ruralité, utilisation des soins intensifs, situation de logement, TBSA, durée de séjour, interventions, transfusion, jours aux soins intensifs, lésion par inhalation et localisation anatomique.',
     medianIfBlank: 'Médiane d’entraînement si vide',
     noneSelected: 'Aucune sélection',
-    faqTitle: 'FAQ',
-    faqContact: 'Questions? Email me at',
+    faqTitle: 'FAQ/README',
+    faqContact: 'README du projet :',
     faqItems: [
       { question: 'Que signifie le risque affiché ?', answer: 'Il s’agit du risque estimé de mortalité calculé par le modèle de régression logistique ajusté sans étiologie.' },
       { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les informations saisies sur le patient, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs, le déroulement de l’hospitalisation et la localisation anatomique. Le modèle ajusté attribue un poids à chaque information selon sa relation avec la mortalité dans cette étude, combine ces informations pondérées et convertit le résultat en pourcentage estimé. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
@@ -310,8 +322,8 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationFieldsText: 'Variables del modelo: edad, sexo, ruralidad, uso de UCI, situación de vivienda, TBSA, duración de la estancia, procedimientos, transfusión, días en UCI, lesión por inhalación y localización anatómica.',
     medianIfBlank: 'Mediana de entrenamiento si está vacío',
     noneSelected: 'Ninguno seleccionado',
-    faqTitle: 'Preguntas frecuentes',
-    faqContact: 'Questions? Email me at',
+    faqTitle: 'FAQ/README',
+    faqContact: 'README del proyecto:',
     faqItems: [
       { question: '¿Qué significa el riesgo mostrado?', answer: 'Es el riesgo estimado de mortalidad calculado por el modelo de regresión logística ajustado sin etiología.' },
       { question: '¿Cómo se calcula el riesgo estimado?', answer: 'La aplicación combina la información introducida sobre el paciente, incluida la edad, el tamaño de la quemadura, la lesión por inhalación, los cuidados intensivos, el curso hospitalario y la localización anatómica. El modelo ajustado asigna un peso a cada dato según su relación con la mortalidad en este estudio, combina la información ponderada y convierte el resultado en un porcentaje estimado. Los campos numéricos vacíos se reemplazan por la mediana de la cohorte de entrenamiento.' },
@@ -664,7 +676,7 @@ function App() {
                   <h3>{strings.faqTitle}</h3>
                   <button type="button" className="faq-modal__close" aria-label="Close FAQ" onClick={() => setShowFaq(false)}>×</button>
                 </div>
-                {strings.faqItems.map((item) => (
+                {readmeItems.map((item) => (
                   <details key={item.question}>
                     <summary>{item.question}</summary>
                     <p>{item.answer}</p>
@@ -706,7 +718,7 @@ function App() {
           <section className="faq-link-panel" aria-label={strings.faqTitle}>
             <p><button type="button" className="faq-link" onClick={() => setShowFaq(true)}>{strings.faqTitle}</button></p>
             <p className="faq-contact">
-              {strings.faqContact} <a href="mailto:jgawaziuk@live.com?subject=Burn%20mortality%20app%202026">jgawaziuk@live.com</a>
+              {strings.faqContact} <a href={githubAppUrl} target="_blank" rel="noreferrer">GitHub MEMBER</a>
             </p>
           </section>
 

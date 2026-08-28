@@ -1,48 +1,64 @@
 # MEMBER
 
-**MEMBER** means **Manitoba Estimated Burn Mortality Risk**. It is a research application for displaying an estimated inpatient burn mortality risk.
+## Manitoba Estimated Burn Mortality Risk
 
-Repository: https://github.com/jpg123/burn-mortality-MEMBER
+MEMBER is a research app that estimates inpatient mortality risk after a burn injury. It is designed to organize information in a consistent way and display the result as an estimated percentage.
 
-## Purpose
+It is for research, education and discussion. It does not replace clinical judgment, consultation with a burn team or local hospital protocols.
 
-The app presents the output of the fitted no-etiology logistic-regression model developed from the Manitoba burn registry analysis. It is intended for research, education and manuscript figure preparation. It does not replace clinical judgment or institutional protocols.
+## Using the app
 
-## Model calculation
+1. Select a language: English, French or Spanish. The app name remains MEMBER.
+2. Enter the patient information available at the time of assessment.
+3. Select the relevant anatomical locations.
+4. Select **Calculate risk**.
+5. Review the estimated mortality risk and the information entered.
 
-The app combines the entered patient information and applies the fitted model coefficients. The resulting linear predictor is converted to an estimated risk using:
+The app can be used with information available near admission. Information such as ICU use, ICU days, procedures, transfusion and length of stay may become available later during hospitalization and can support reassessment.
 
-`Estimated risk = 1 / (1 + exp(-linear predictor))`
+## Information used
 
-The model uses age with restricted cubic spline terms, sex, FSA-derived rurality, ICU use, housing status, TBSA, length of stay, procedures, total PRBC units, ICU days, inhalation injury and anatomical location indicators. Etiology is not included.
+The estimate uses:
 
-Blank numeric fields use the corresponding training-cohort median. Missing Total PRBC values are treated as zero because most patients did not receive transfusion. A separate transfusion yes/no variable is not used.
+- Age
+- Sex
+- Rurality derived from the first three characters of the postal code
+- TBSA
+- ICU use and ICU days
+- Inhalation injury
+- Anatomical location
+- Housing status
+- Procedures
+- Length of stay
+- Total packed red blood cell units
 
-## Languages
+Etiology is not used in the estimate.
 
-The interface can be selected in English, French or Spanish. MEMBER remains the app name in every language. The FAQ/README content is currently maintained in English.
+## How the estimate is produced
+
+MEMBER uses a fitted logistic-regression model from the Manitoba burn registry study. The model combines the entered information, applies the weights estimated during model fitting and converts the combined result into an estimated mortality percentage.
+
+The estimate is calculated as:
+
+`Estimated mortality risk = 1 / (1 + exp(-combined model value))`
+
+Blank numeric fields use the median value from the model training cohort. Missing total packed red blood cell values are treated as zero because most patients did not receive transfusion. A separate transfusion yes/no field is not used.
 
 ## Sharing
 
-**Share App** opens MEMBER at rest in English. **Share Data** shares the selected figure example. iPhone and iPad can use Messages or iMessage. Android native sharing depends on the browser and device; when it is unavailable, the app copies the link for pasting into a message.
+- **Share App** opens MEMBER at rest in English.
+- **Share Data** shares the selected low-risk or high-risk figure.
+- On iPhone or iPad, the native share sheet can send the link through Messages or iMessage.
+- On Android, native sharing depends on the browser and device. If it is unavailable, the app copies the link so it can be pasted into a message.
 
-## Validation
+## What validation means here
 
-The manuscript reports nested stratified cross-validation as internal validation within the study cohort. External validation at another burn centre remains outstanding.
+The study used nested stratified cross-validation. This is internal validation, meaning that model performance was tested using repeated training and testing divisions within the study cohort.
 
-## Development
+External validation at another burn centre remains outstanding. The displayed estimate should therefore be interpreted in the context of the study cohort and not as a universal mortality probability.
 
-Install dependencies and start the development server:
+## Project information
 
-```bash
-npm install
-npm run dev
-```
+The application, fitted model and project documentation are maintained in the [MEMBER GitHub repository](https://github.com/jpg123/burn-mortality-MEMBER).
 
-Run the production build:
-
-```bash
-npm run build
-```
-
-The fitted model artifact is stored at `src/model/no-etiology-logistic.json`. The main interface is in `src/App.tsx` and styling is in `src/App.css`.
+The in-app **FAQ/README** provides the same user-facing information in a popup. Its content is currently maintained in English and will be translated after the English version is finalized.

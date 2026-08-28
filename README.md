@@ -40,6 +40,8 @@ The estimate is calculated as:
 
 `Estimated mortality risk = 1 / (1 + exp(-combined model value))`
 
+The combined model value starts with the model intercept and adds the contribution from each entered model variable. Each contribution is calculated by multiplying the processed patient value by the fitted coefficient for that variable. Positive contributions increase the estimated risk, while negative contributions decrease it. Age is represented using the model’s spline terms rather than a single straight-line age effect. Yes/no findings and anatomical locations are represented as indicator values. The logistic conversion changes the combined value, which is on a log-odds scale, into a number between 0 and 1; this number is displayed as a percentage.
+
 Blank numeric fields use the median value from the model training cohort. Missing total packed red blood cell values are treated as zero because most patients did not receive transfusion.
 
 ## Sharing

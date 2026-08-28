@@ -1,4 +1,4 @@
-# MEMBER
+# MEMBER v1.0
 
 ## Manitoba Estimated Burn Mortality Risk
 

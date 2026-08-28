@@ -40,7 +40,7 @@ The estimate is calculated as:
 
 `Estimated mortality risk = 1 / (1 + exp(-combined model value))`
 
-Blank numeric fields use the median value from the model training cohort. Missing total packed red blood cell values are treated as zero because most patients did not receive transfusion. A separate transfusion yes/no field is not used.
+Blank numeric fields use the median value from the model training cohort. Missing total packed red blood cell values are treated as zero because most patients did not receive transfusion.
 
 ## Sharing
 

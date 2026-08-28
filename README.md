@@ -32,8 +32,6 @@ The estimate uses:
 - Length of stay
 - Total packed red blood cell units
 
-Etiology is not used in the estimate.
-
 ## How the estimate is produced
 
 MEMBER uses a fitted logistic-regression model from the Manitoba burn registry study. The model combines the entered information, applies the weights estimated during model fitting and converts the combined result into an estimated mortality percentage.

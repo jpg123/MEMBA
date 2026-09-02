@@ -69,16 +69,7 @@ type LocaleStrings = {
 }
 
 const githubAppUrl = 'https://github.com/jpg123/burn-mortality-MEMBER'
-const readmeItems = [
-  { question: 'What is MEMBER?', answer: 'MEMBER means Manitoba Estimated Burn Mortality Risk. It is a research application that displays an estimated inpatient burn mortality risk from a fitted logistic-regression model.' },
-  { question: 'How is the estimated risk calculated?', answer: 'The app combines the entered patient information, including age, burn size, inhalation injury, intensive care, hospital course and anatomical location. The fitted model gives each piece of information a weight based on its relationship with mortality in this study, combines the weighted information and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
-  { question: 'Which information is used?', answer: 'The model uses age, sex, FSA-derived rurality, ICU use, housing status, TBSA, length of stay, procedures, total PRBC units, ICU days, inhalation injury and anatomical location. Etiology is not included.' },
-  { question: 'How are missing transfusion values handled?', answer: 'Total PRBC is recorded as the number of packed red blood cell units. Missing values are treated as zero because most patients did not receive transfusion. A separate transfusion yes/no variable is not used.' },
-  { question: 'How does sharing work?', answer: 'Share App opens MEMBER at rest in English. Share Data shares the selected figure example. iPhone and iPad can use Messages or iMessage. On Android, native sharing depends on the browser and device; if unavailable, the link is copied for pasting into a message.' },
-  { question: 'What languages are available?', answer: 'The interface can be selected in English, French or Spanish. MEMBER remains the app name in every language.' },
-  { question: 'What validation has been performed?', answer: 'The manuscript reports nested stratified cross-validation as internal validation within this cohort. External validation at another burn centre remains outstanding.' },
-  { question: 'Where is the source information?', answer: 'The complete project README and application source are available in the MEMBER GitHub repository.' },
-]
+const githubReadmeUrl = `${githubAppUrl}/blob/main/README.md`
 
 function deriveRurality(fsa: string) {
   const normalized = fsa.replace(/\s/g, '').toUpperCase().slice(0, 3)
@@ -123,7 +114,7 @@ function modelProbability(values: Record<string, string>, selectedLocations: Loc
 
 const localeStrings: Record<Language, LocaleStrings> = {
   en: {
-    appTitle: 'Burn Mortality App',
+    appTitle: 'Manitoba Estimated Mortality in Burn App',
     appEyebrow: 'Research application',
     languageLabel: 'Language',
     languages: { en: 'English', fr: 'French', es: 'Spanish' },
@@ -175,13 +166,13 @@ const localeStrings: Record<Language, LocaleStrings> = {
       { question: 'How is the estimated risk calculated?', answer: 'The app combines the patient information entered, including age, burn size, inhalation injury, intensive care, hospital course and anatomical location. The fitted model gives each piece of information a weight based on its relationship with mortality in this study, combines the weighted information and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
       { question: 'Which inputs change the current risk?', answer: 'Age, sex, FSA-derived rurality, TBSA, inhalation injury, anatomical locations, ICU use, ICU days, length of stay, procedures, transfusion and housing status are used by the model.' },
       { question: 'Can TBSA include a decimal?', answer: 'Yes. Enter one decimal place, such as 12.3%. The model uses the entered TBSA value.' },
-      { question: 'What does Share App send?', answer: 'Share App sends a link that opens MEMBER at rest in English. Share Data sends the selected figure example. On iPhone or iPad, the native share sheet can send the link through Messages or iMessage. On Android, native sharing depends on the browser and device; if it is unavailable, the app copies the link so it can be pasted into a message.' },
+      { question: 'What does Share App send?', answer: 'Share App sends a link that opens MEMBA at rest in English. Share Data sends the selected figure example. On iPhone or iPad, the native share sheet can send the link through Messages or iMessage. On Android, native sharing depends on the browser and device; if it is unavailable, the app copies the link so it can be pasted into a message.' },
     ],
     featureLabels: {
       Age: 'Age',
       Sex: 'Sex',
       TBSA: 'TBSA',
-      FSA: 'First 3 of Postal',
+      FSA: 'First 3 MB postal',
       ICU: 'ICU',
       'Days ICU': 'Days ICU',
       Unhoused: 'Unhoused',
@@ -197,7 +188,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Lower extremity': 'Lower extremity',
       Genitalia: 'Genitalia',
     },
-    locationLabels: { FSA: 'First 3 of Postal', Inhalation: 'Inhalation', Rurality: 'Rurality', Mechanism: 'Mechanism', 'Anatomical location': 'Anatomical location' },
+    locationLabels: { FSA: 'First 3 MB postal', Inhalation: 'Inhalation', Rurality: 'Rurality', Mechanism: 'Mechanism', 'Anatomical location': 'Anatomical location' },
   },
   fr: {
     appTitle: 'Application de mortalité des brûlures',
@@ -252,13 +243,13 @@ const localeStrings: Record<Language, LocaleStrings> = {
       { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les informations saisies sur le patient, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs, le déroulement de l’hospitalisation et la localisation anatomique. Le modèle ajusté attribue un poids à chaque information selon sa relation avec la mortalité dans cette étude, combine ces informations pondérées et convertit le résultat en pourcentage estimé. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
       { question: 'Quelles entrées modifient le risque actuel ?', answer: 'Les variables affichées sont traitées par le modèle de régression logistique ajusté.' },
       { question: 'La TBSA peut-elle contenir une décimale ?', answer: 'Oui. Entrez une décimale, par exemple 12,3 %. Le modèle utilise la valeur de TBSA saisie.' },
-      { question: 'Que partage le bouton Partager l’application ?', answer: 'Le bouton Partager l’application envoie un lien qui ouvre MEMBER au repos en anglais. Le bouton Partager les données envoie l’exemple illustré sélectionné. Sur iPhone ou iPad, la feuille de partage peut envoyer le lien par Messages ou iMessage. Sur Android, le partage dépend du navigateur et de l’appareil; s’il n’est pas disponible, l’application copie le lien pour qu’il soit collé dans un message.' },
+      { question: 'Que partage le bouton Partager l’application ?', answer: 'Le bouton Partager l’application envoie un lien qui ouvre MEMBA au repos en anglais. Le bouton Partager les données envoie l’exemple illustré sélectionné. Sur iPhone ou iPad, la feuille de partage peut envoyer le lien par Messages ou iMessage. Sur Android, le partage dépend du navigateur et de l’appareil; s’il n’est pas disponible, l’application copie le lien pour qu’il soit collé dans un message.' },
     ],
     featureLabels: {
       Age: 'Âge',
       Sex: 'Sexe',
       TBSA: 'TBSA',
-      FSA: 'FSA',
+      FSA: 'Code postal',
       ICU: 'USI',
       'Days ICU': 'Jours en USI',
       Unhoused: 'Sans logement',
@@ -274,7 +265,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Lower extremity': 'Membre inférieur',
       Genitalia: 'Génitales',
     },
-    locationLabels: { FSA: 'FSA', Inhalation: 'Inhalation', Rurality: 'Ruralité', Mechanism: 'Mécanisme', 'Anatomical location': 'Localisation anatomique' },
+    locationLabels: { FSA: 'Code postal', Inhalation: 'Inhalation', Rurality: 'Ruralité', Mechanism: 'Mécanisme', 'Anatomical location': 'Localisation anatomique' },
   },
   es: {
     appTitle: 'Aplicación de mortalidad por quemaduras',
@@ -329,7 +320,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       { question: '¿Cómo se calcula el riesgo estimado?', answer: 'La aplicación combina la información introducida sobre el paciente, incluida la edad, el tamaño de la quemadura, la lesión por inhalación, los cuidados intensivos, el curso hospitalario y la localización anatómica. El modelo ajustado asigna un peso a cada dato según su relación con la mortalidad en este estudio, combina la información ponderada y convierte el resultado en un porcentaje estimado. Los campos numéricos vacíos se reemplazan por la mediana de la cohorte de entrenamiento.' },
       { question: '¿Qué entradas cambian el riesgo actual?', answer: 'Las variables mostradas son procesadas por el modelo de regresión logística ajustado.' },
       { question: '¿TBSA puede incluir un decimal?', answer: 'Sí. Introduzca un decimal, por ejemplo 12.3 %. El modelo utiliza el valor de TBSA introducido.' },
-      { question: '¿Qué comparte Compartir aplicación?', answer: 'Compartir aplicación envía un enlace que abre MEMBER en reposo y en inglés. Compartir datos envía el ejemplo ilustrado seleccionado. En iPhone o iPad, la hoja de compartir puede enviar el enlace mediante Mensajes o iMessage. En Android, el uso compartido depende del navegador y del dispositivo; si no está disponible, la aplicación copia el enlace para pegarlo en un mensaje.' },
+      { question: '¿Qué comparte Compartir aplicación?', answer: 'Compartir aplicación envía un enlace que abre MEMBA en reposo y en inglés. Compartir datos envía el ejemplo ilustrado seleccionado. En iPhone o iPad, la hoja de compartir puede enviar el enlace mediante Mensajes o iMessage. En Android, el uso compartido depende del navegador y del dispositivo; si no está disponible, la aplicación copia el enlace para pegarlo en un mensaje.' },
     ],
     featureLabels: {
       Age: 'Edad',
@@ -358,9 +349,9 @@ const localeStrings: Record<Language, LocaleStrings> = {
 const featureRows: FeatureItem[] = [
   { label: 'Age', valueLow: '34', valueHigh: '67', scale: 'Years' },
   { label: 'Sex', valueLow: 'Female', valueHigh: 'Male', scale: 'Binary' },
-  { label: 'TBSA', valueLow: '20%', valueHigh: '50%', scale: 'Per 10 percentage points' },
+  { label: 'TBSA', valueLow: '8%', valueHigh: '50%', scale: 'Per 10 percentage points' },
   // FSA is used only to derive Rurality and is not an independent model feature.
-  { label: 'FSA', valueLow: 'R3B', valueHigh: 'R0A', scale: 'First 3 characters' },
+  { label: 'FSA', valueLow: 'R3B', valueHigh: 'R0A', scale: '3 characters' },
   { label: 'ICU', valueLow: 'No', valueHigh: 'Yes' },
   { label: 'Inhalation injury', valueLow: 'No', valueHigh: 'Yes' },
   { label: 'Days ICU', valueLow: '0', valueHigh: '9', scale: 'Days' },
@@ -383,7 +374,7 @@ const stateMeta = {
     ringSoft: 'rgba(22, 101, 52, 0.14)',
     summary: [
       ['Age', '34 years'],
-      ['TBSA', '16%'],
+      ['TBSA', '8%'],
       ['Sex', 'Female'],
       ['Rural', 'No'],
       ['Inhalation', 'No'],
@@ -426,7 +417,6 @@ function App() {
     query.get('capture') !== '1' && !window.localStorage.getItem(disclosureKey)
   ))
   const [shareStatus, setShareStatus] = useState<string | null>(null)
-  const [showFaq, setShowFaq] = useState(false)
   const [hasCalculated, setHasCalculated] = useState(() => query.has('state'))
   const [selectedLocations, setSelectedLocations] = useState<LocationOption[]>(() => {
     const requested = query.get('locations')?.split(',') ?? []
@@ -439,7 +429,7 @@ function App() {
   const [featureValues, setFeatureValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(featureRows.map((item) => [
       item.label,
-      query.has('state') ? state === 'low' ? item.valueLow : item.valueHigh : '',
+      query.has('state') ? state === 'low' ? item.valueLow : item.valueHigh : item.label === 'Sex' ? 'Male' : '',
     ])),
   )
   const figureUrl = useMemo(
@@ -541,8 +531,8 @@ function App() {
         <section className="phone" aria-label={`${!hasCalculated ? strings.readyTitle : strings[locationImpact.state === 'low' ? 'lowRisk' : 'highRisk']} ${strings.riskScreenLabel}`}>
           <div className="topbar">
             <div>
-              <h1>MEMBER</h1>
-              <p className="app-name-expansion">Manitoba Estimated Burn Mortality Risk</p>
+              <h1>MEMBA</h1>
+              <p className="app-name-expansion">Manitoba Estimated Mortality in Burn App</p>
             </div>
             <div className="topbar__controls">
               <span className="topbar__eyebrow">{strings.languageLabel}</span>
@@ -560,10 +550,10 @@ function App() {
               </div>
             </div>
           </div>
-          <div className={hasCalculated ? 'hero-card' : 'hero-card hero-card--resting'} style={{ background: hasCalculated ? stateMeta[locationImpact.state].gradient : '#fff' }}>
+          {hasCalculated ? <div className="hero-card" style={{ background: stateMeta[locationImpact.state].gradient }}>
             <div className="hero-card__ambient" />
-            {hasCalculated ? <h2 className="hero-card__title">{locationImpact.state === 'low' ? strings.lowRisk : strings.highRisk}</h2> : null}
-            {hasCalculated ? <div
+            <h2 className="hero-card__title">{locationImpact.state === 'low' ? strings.lowRisk : strings.highRisk}</h2>
+            <div
               className="score-ring"
               aria-label={`${locationImpact.score} risk`}
                 style={{ ['--ring' as string]: locationImpact.riskScore === null ? '#d1d5db' : locationImpact.riskScore > 50 ? '#dc2626' : stateMeta[locationImpact.state].ring }}
@@ -572,8 +562,8 @@ function App() {
                 <span className="score-ring__value">{locationImpact.score || '—'}</span>
                 <span className="score-ring__label">{hasCalculated ? strings.scoreLabel : ''}</span>
               </div>
-            </div> : null}
-          </div>
+            </div>
+          </div> : null}
 
           <section className="feature-panel" aria-label={strings.patientData}>
             <div className="feature-list">
@@ -586,7 +576,7 @@ function App() {
                     </div>
                     {choiceFields.has(item.label) ? (
                       <div className="choice-selector" role="radiogroup" aria-label={item.label}>
-                        {(item.label === 'Sex' ? [['Female', 'F'], ['Male', 'M']] : [['', 'No'], ['Yes', 'Yes']]).map(([optionValue, optionLabel]) => (
+                        {(item.label === 'Sex' ? [['Male', 'M'], ['Female', 'F']] : [['', 'No'], ['Yes', 'Yes']]).map(([optionValue, optionLabel]) => (
                           <button
                             key={optionLabel}
                             type="button"
@@ -604,10 +594,11 @@ function App() {
                       aria-label={item.label}
                       type={numericFields.has(item.label) ? 'number' : 'text'}
                       min={numericFields.has(item.label) ? 0 : undefined}
-                      max={item.label === 'TBSA' ? 100 : undefined}
+                        max={item.label === 'TBSA' ? 100 : item.label === 'Procedures' ? 15 : undefined}
                       step={item.label === 'TBSA' ? 0.1 : numericFields.has(item.label) ? 1 : undefined}
                       maxLength={item.label === 'FSA' ? 3 : undefined}
                       placeholder={item.label === 'FSA' ? 'e.g. R3B' : undefined}
+                      title={item.label === 'FSA' ? 'Enter any Manitoba FSA, using the first 3 characters of the postal code' : undefined}
                       value={value}
                       onChange={(event) => {
                         const nextValue = item.label === 'FSA'
@@ -629,7 +620,7 @@ function App() {
             </div>
           </section>
 
-          {locationImpact.summary.length ? (
+          {hasCalculated && locationImpact.summary.length ? (
             <section className="summary-panel" aria-label={strings.selectedPatientVariables}>
               <dl className="summary-grid">
                 {locationImpact.summary.map(([label, value]) => (
@@ -669,23 +660,6 @@ function App() {
             <p className="location-panel__summary">{strings.selected}: {localizedLocationSummary}</p>
           </section>
 
-          {showFaq ? (
-            <div className="faq-modal" role="dialog" aria-modal="true" aria-label={strings.faqTitle}>
-              <div className="faq-modal__card">
-                <div className="faq-modal__header">
-                  <h3>{strings.faqTitle}</h3>
-                  <button type="button" className="faq-modal__close" aria-label="Close FAQ" onClick={() => setShowFaq(false)}>×</button>
-                </div>
-                {readmeItems.map((item) => (
-                  <details key={item.question}>
-                    <summary>{item.question}</summary>
-                    <p>{item.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
           {!hasCalculated ? (
             <section className="example-panel" aria-label={strings.patientData}>
               <button type="button" className="action-row__button" onClick={() => setHasCalculated(true)}>
@@ -716,10 +690,8 @@ function App() {
           ) : null}
 
           <section className="faq-link-panel" aria-label={strings.faqTitle}>
-            <p><button type="button" className="faq-link" onClick={() => setShowFaq(true)}>{strings.faqTitle}</button></p>
-            <p className="faq-contact">
-              {strings.faqContact} <a href={githubAppUrl} target="_blank" rel="noreferrer">GitHub MEMBER</a>
-            </p>
+            <a className="faq-link" href={githubReadmeUrl} target="_blank" rel="noreferrer">{strings.faqTitle}</a>
+            <a className="faq-contact" href={githubAppUrl} target="_blank" rel="noreferrer">GitHub MEMBA</a>
           </section>
 
           <footer className="citation-footer">{strings.citationFooter}</footer>

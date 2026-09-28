@@ -1,14 +1,14 @@
-# MEMBER v1.0
+# MEMBA v1.0
 
 ## Manitoba Estimated Burn Mortality Risk
 
-MEMBER is a research app that estimates inpatient mortality risk after a burn injury. It is designed to organize information in a consistent way and display the result as an estimated percentage.
+MEMBA is a research app that estimates inpatient mortality risk after a burn injury. It is designed to organize information in a consistent way and display the result as an estimated percentage.
 
 It is for research, education and discussion. It does not replace clinical judgment, consultation with a burn team or local hospital protocols.
 
 ## Using the app
 
-1. Select a language: English, French or Spanish. The app name remains MEMBER.
+1. Select a language: English, French or Spanish. The app name remains MEMBA.
 2. Enter the patient information available at the time of assessment.
 3. Select the relevant anatomical locations.
 4. Select **Calculate risk**.
@@ -50,7 +50,7 @@ The estimate uses:
 
 ## How the estimate is produced
 
-MEMBER uses a fitted logistic-regression model from the Manitoba burn registry study. The model combines the entered information, applies the weights estimated during model fitting and converts the combined result into an estimated mortality percentage.
+MEMBA uses a fitted logistic-regression model from the Manitoba burn registry study. The model combines the entered information, applies the weights estimated during model fitting and converts the combined result into an estimated mortality percentage.
 
 The estimate is calculated as:
 
@@ -62,7 +62,7 @@ Blank numeric fields use the median value from the model training cohort. Missin
 
 ## Sharing
 
-- **Share App** opens MEMBER at rest in English.
+- **Share App** opens MEMBA at rest in English.
 - **Share Data** shares the selected low-risk or high-risk figure.
 - On iPhone or iPad, the native share sheet can send the link through Messages or iMessage.
 - On Android, native sharing depends on the browser and device. If it is unavailable, the app copies the link so it can be pasted into a message.

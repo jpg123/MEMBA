@@ -20,11 +20,11 @@ The demonstration figures use Rule-of-Nines-compatible examples. The low-risk ex
 
 The following examples are the same image files used for the journal submission figures.
 
-### Figure 3 MEMBA at-rest panels
+### Figure 3A-C MEMBA at-rest panels
 
 A three-panel black-and-white composite shows the MEMBA application before a risk calculation: English in panel A, French in panel B and Spanish in panel C. Each panel shows the input fields, anatomical-location controls, disclosure, and the GitHub: jpg123/MEMBA link.
 
-![Figure 3 MEMBA at-rest panels](at-rest-panels.png)
+![Figure 3A-C MEMBA at-rest panels](at-rest-panels.png)
 
 ### Figure 4 MEMBA low-risk example
 

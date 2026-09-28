@@ -696,7 +696,7 @@ function App() {
 
           <section className="faq-link-panel" aria-label={strings.faqTitle}>
             <a className="faq-link" href={githubReadmeUrl} target="_blank" rel="noreferrer">{strings.faqTitle}</a>
-            <a className="faq-contact" href={githubAppUrl} target="_blank" rel="noreferrer">GitHub MEMBA</a>
+            <a className="faq-contact" href={githubAppUrl} target="_blank" rel="noreferrer">GitHub: jpg123/MEMBA</a>
           </section>
 
           <footer className="citation-footer">{strings.citationFooter}</footer>

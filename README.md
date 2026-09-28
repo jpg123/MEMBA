@@ -14,7 +14,7 @@ It is for research, education and discussion. It does not replace clinical judgm
 4. Select **Calculate risk**.
 5. Review the estimated mortality risk and the information entered.
 
-The demonstration figures use Rule-of-Nines-compatible examples. The low-risk example uses 9% TBSA with one upper extremity selected. The high-risk example uses 45% TBSA from head and neck (9%), torso (18%) and one lower extremity (18%). The calculated-risk summary displays both TBSA and the selected anatomical locations.
+The demonstration figures use Rule-of-Nines-compatible examples. The low-risk example uses 9%TBSA with one upper extremity selected. The high-risk example uses 45%TBSA from head and neck (9%), torso (18%) and one lower extremity (18%). The calculated-risk summary displays both %TBSA and the selected anatomical locations.
 
 ## Submission examples
 
@@ -28,7 +28,7 @@ A horizontal three-panel black-and-white composite shows the MEMBA application b
 
 ### Figure 4A-B MEMBA risk examples
 
-A horizontal two-panel color composite shows a low-risk MEMBA example with 9% TBSA and the upper extremity selected in panel A and a high-risk example with 45% TBSA from head and neck, torso and lower extremity selections in panel B. Each panel has a border and the summary panel displays TBSA and the selected anatomical locations.
+A horizontal two-panel color composite shows a low-risk MEMBA example with 9%TBSA and the upper extremity selected in panel A and a high-risk example with 45%TBSA from head and neck, torso and lower extremity selections in panel B. Each panel has a border and the summary panel displays %TBSA and the selected anatomical locations.
 
 ![Figure 4A-B MEMBA risk examples](risk-panels.png)
 
@@ -39,12 +39,12 @@ The estimate uses:
 - Age
 - Sex
 - Rurality derived from the first three characters of the postal code
-- TBSA
+- %TBSA
 - ICU use and ICU days
 - Inhalation injury
 - Anatomical location
 - Housing status
-- Procedures
+- Procedures (enter 0 when no procedure has occurred)
 - Length of stay
 - Total packed red blood cell units
 
@@ -58,7 +58,7 @@ The estimate is calculated as:
 
 The combined model value starts with the model intercept and adds the contribution from each entered model variable. Each contribution is calculated by multiplying the processed patient value by the fitted coefficient for that variable. Positive contributions increase the estimated risk, while negative contributions decrease it. Age is represented using the model’s spline terms rather than a single straight-line age effect. Yes/no findings and anatomical locations are represented as indicator values. The logistic conversion changes the combined value, which is on a log-odds scale, into a number between 0 and 1; this number is displayed as a percentage.
 
-Blank numeric fields use the median value from the model training cohort. Missing total packed red blood cell values are treated as zero because most patients did not receive transfusion.
+Blank numeric fields use the median value from the model training cohort. A procedure value of 0 is a true zero and is different from leaving the field blank. Missing total packed red blood cell values are treated as zero because most patients did not receive transfusion.
 
 ## Sharing
 

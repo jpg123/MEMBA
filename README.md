@@ -22,23 +22,15 @@ The following examples are the same image files used for the journal submission 
 
 ### Figure 3A-C MEMBA at-rest panels
 
-A three-panel black-and-white composite shows the MEMBA application before a risk calculation: English in panel A, French in panel B and Spanish in panel C. Each panel shows the input fields, anatomical-location controls, disclosure, and the GitHub: jpg123/MEMBA link.
+A horizontal three-panel black-and-white composite shows the MEMBA application before a risk calculation: English in panel A, French in panel B and Spanish in panel C. Each panel has a border and shows the input fields, anatomical-location controls, disclosure, and the GitHub: jpg123/MEMBA link.
 
 ![Figure 3A-C MEMBA at-rest panels](at-rest-panels.png)
 
-### Figure 4 MEMBA low-risk example
+### Figure 4A-B MEMBA risk examples
 
-The MEMBA application displays a low-risk example after patient inputs are entered. The example uses 9% TBSA with the upper extremity selected, and the summary panel displays TBSA and the selected anatomical location.
+A horizontal two-panel color composite shows a low-risk MEMBA example with 9% TBSA and the upper extremity selected in panel A and a high-risk example with 45% TBSA from head and neck, torso and lower extremity selections in panel B. Each panel has a border and the summary panel displays TBSA and the selected anatomical locations.
 
-![Figure 4 MEMBA low-risk example](low-example.png)
-
-### Figure 5 MEMBA high-risk example
-
-The MEMBA application displays a high-risk example after patient inputs are entered. The example uses 45% TBSA from head and neck, torso and lower extremity selections, and the summary panel displays TBSA and the selected anatomical locations.
-
-![Figure 5 MEMBA high-risk example](high-example.png)
-
-The app can be used with information available near admission. Information such as ICU use, ICU days, procedures, transfusion and length of stay may become available later during hospitalization and can support reassessment.
+![Figure 4A-B MEMBA risk examples](risk-panels.png)
 
 ## Information used
 

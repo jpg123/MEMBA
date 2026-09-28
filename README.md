@@ -32,17 +32,23 @@ The French MEMBA application is shown before a risk calculation, with the input 
 
 ![Figure 3B MEMBA French at-rest screen](at-rest-fr.png)
 
-### Figure 3C MEMBA low-risk example
+### Figure 3C MEMBA Spanish at-rest screen
+
+The Spanish MEMBA application is shown before a risk calculation, with the input fields and disclosure visible.
+
+![Figure 3C MEMBA Spanish at-rest screen](at-rest-es.png)
+
+### Figure 3D MEMBA low-risk example
 
 The MEMBA application displays a low-risk example after patient inputs are entered. The example uses 9% TBSA with the upper extremity selected, and the summary panel displays TBSA and the selected anatomical location.
 
-![Figure 3C MEMBA low-risk example](low-example.png)
+![Figure 3D MEMBA low-risk example](low-example.png)
 
-### Figure 3D MEMBA high-risk example
+### Figure 3E MEMBA high-risk example
 
 The MEMBA application displays a high-risk example after patient inputs are entered. The example uses 45% TBSA from head and neck, torso and lower extremity selections, and the summary panel displays TBSA and the selected anatomical locations.
 
-![Figure 3D MEMBA high-risk example](high-example.png)
+![Figure 3E MEMBA high-risk example](high-example.png)
 
 The app can be used with information available near admission. Information such as ICU use, ICU days, procedures, transfusion and length of stay may become available later during hospitalization and can support reassessment.
 

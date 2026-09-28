@@ -92,7 +92,8 @@ function modelProbability(values: Record<string, string>, selectedLocations: Loc
   const raw: Record<string, number> = {
     Sex_male: values.Sex === 'Male' ? 1 : 0,
     Rural: values.FSA ? (deriveRurality(values.FSA) === 'Yes' ? 1 : 0) : Number.NaN,
-    ICU_yes: values.ICU === 'Yes' ? 1 : 0,
+    // ICU use is defined by the cleaned ICU duration: Yes only when Days ICU > 0.
+    ICU_yes: Number.parseFloat(values['Days ICU']) > 0 ? 1 : 0,
     Unhoused: values.Unhoused === 'Yes' ? 1 : 0,
     TBSA_final: Number.parseFloat(values.TBSA), Length_of_stay: Number.parseFloat(values['Length of stay']),
     Procedures: Number.parseFloat(values.Procedures), Total_PRBC: Number.parseFloat(values['Total PRBC']),

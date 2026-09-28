@@ -12,8 +12,6 @@ type FeatureItem = {
   scale?: string
 }
 
-type LocationOption = 'Head and neck' | 'Torso' | 'Upper extremity' | 'Lower extremity' | 'Genitalia'
-
 type LocaleStrings = {
   appTitle: string
   appEyebrow: string
@@ -21,10 +19,6 @@ type LocaleStrings = {
   languages: Record<Language, string>
   statusLabel: string
   patientData: string
-  anatomicalLocation: string
-  selected: string
-  selectAll: string
-  clearAll: string
   calculate: string
   back: string
   examples: string
@@ -49,7 +43,6 @@ type LocaleStrings = {
   calculationTitle: string
   calculationBaseline: string
   calculationTbsa: string
-  calculationAnatomy: string
   calculationFormula: string
   calculationUsed: string
   calculationNotUsed: string
@@ -59,13 +52,11 @@ type LocaleStrings = {
   calculationFormulaText: string
   calculationFieldsText: string
   medianIfBlank: string
-  noneSelected: string
   faqTitle: string
   faqContact: string
   faqItems: Array<{ question: string; answer: string }>
   featureLabels: Record<string, string>
-  locationOptions: Record<LocationOption, string>
-  locationLabels: Record<string, string>
+  summaryLabels: Record<string, string>
 }
 
 const githubAppUrl = 'https://github.com/jpg123/MEMBA'
@@ -77,18 +68,10 @@ function deriveRurality(fsa: string) {
   return normalized[1] === '0' ? 'Yes' : 'No'
 }
 
-const locationOptions: LocationOption[] = [
-  'Head and neck',
-  'Torso',
-  'Upper extremity',
-  'Lower extremity',
-  'Genitalia',
-]
-
 const numericFields = new Set(['Age', 'TBSA', 'Days ICU', 'Length of stay', 'Procedures', 'Total PRBC'])
 const choiceFields = new Set(['Sex', 'ICU', 'Unhoused', 'Inhalation injury'])
 
-function modelProbability(values: Record<string, string>, selectedLocations: LocationOption[]) {
+function modelProbability(values: Record<string, string>) {
   const raw: Record<string, number> = {
     Sex_male: values.Sex === 'Male' ? 1 : 0,
     Rural: values.FSA ? (deriveRurality(values.FSA) === 'Yes' ? 1 : 0) : Number.NaN,
@@ -98,11 +81,6 @@ function modelProbability(values: Record<string, string>, selectedLocations: Loc
     TBSA_final: Number.parseFloat(values.TBSA), Length_of_stay: Number.parseFloat(values['Length of stay']),
     Procedures: Number.parseFloat(values.Procedures), Total_PRBC: Number.parseFloat(values['Total PRBC']),
     Days_ICU: Number.parseFloat(values['Days ICU']), inh_injury: values['Inhalation injury'] === 'Yes' ? 1 : 0,
-    location_head_neck: selectedLocations.includes('Head and neck') ? 1 : 0,
-    location_torso: selectedLocations.includes('Torso') ? 1 : 0,
-    location_upper_extremity: selectedLocations.includes('Upper extremity') ? 1 : 0,
-    location_lower_extremity: selectedLocations.includes('Lower extremity') ? 1 : 0,
-    location_genitalia: selectedLocations.includes('Genitalia') ? 1 : 0,
   }
   const age = Number.parseFloat(values.Age)
   const ageIndex = Number.isFinite(age) ? Math.min(modelArtifact.age_grid.length - 1, Math.max(0, Math.round(age * 10))) : 0
@@ -121,10 +99,6 @@ const localeStrings: Record<Language, LocaleStrings> = {
     languages: { en: 'English', fr: 'French', es: 'Spanish' },
     statusLabel: 'Status',
     patientData: 'Patient factor data',
-    anatomicalLocation: 'Anatomical location',
-    selected: 'Selected',
-    selectAll: 'Select all',
-    clearAll: 'Clear all',
     calculate: 'Calculate risk',
     back: 'Back',
     examples: 'Examples',
@@ -149,7 +123,6 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationTitle: 'How this prediction is calculated',
     calculationBaseline: 'Model intercept',
     calculationTbsa: 'Continuous TBSA value',
-    calculationAnatomy: 'Anatomical location indicators',
     calculationFormula: 'Logistic equation',
     calculationUsed: 'Used by the fitted model',
     calculationNotUsed: 'Displayed but not used by the fitted model',
@@ -157,16 +130,15 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationThreshold: 'High-risk state at a predicted probability of 50% or greater',
     calculationNote: 'This is the fitted logistic-regression model output using the available app inputs. It is an estimated mortality risk, not a clinical decision rule.',
     calculationFormulaText: 'Predicted risk = 1 / (1 + exp(−linear predictor)); the linear predictor is the fitted intercept plus the coefficient-weighted processed inputs. Missing numeric values use training-cohort medians.',
-    calculationFieldsText: 'Model inputs: age, sex, rurality, ICU use, housing status, TBSA, procedures, transfusion, ICU days and inhalation injury. Length of stay and anatomical location are displayed for context but are not used by the fitted model.',
+    calculationFieldsText: 'Model inputs: age, sex, rurality, ICU use, housing status, TBSA, procedures, transfusion, ICU days and inhalation injury. Length of stay is displayed for context but is not used by the fitted model.',
     medianIfBlank: 'Training median if blank',
-    noneSelected: 'None selected',
     faqTitle: 'FAQ/README',
     faqContact: 'Project README:',
     faqItems: [
       { question: 'What does the displayed risk mean?', answer: 'It is the estimated mortality risk from the fitted no-etiology logistic-regression model.' },
       { question: 'How does age differ from the Baux score?', answer: 'The Baux score adds age as a linear value. MEMBA models age with a flexible nonlinear function, so the estimated effect of age can change across the age range. This is a modeling distinction, not a claim that the Baux score is invalid; see Osler et al. (2010) for the modified Baux score.' },
-      { question: 'How is the estimated risk calculated?', answer: 'The app combines the model inputs entered, including age, burn size, inhalation injury, intensive care and selected hospital-course variables. Length of stay and anatomical location remain displayed for context but are not used by the fitted model. The model combines the weighted inputs and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
-      { question: 'Which inputs change the current risk?', answer: 'Age, sex, FSA-derived rurality, TBSA, inhalation injury, ICU use, ICU days, procedures, transfusion and housing status are used by the model. Length of stay and anatomical location are displayed but are not used by the fitted model.' },
+      { question: 'How is the estimated risk calculated?', answer: 'The app combines the model inputs entered, including age, burn size, inhalation injury, intensive care and selected hospital-course variables. Length of stay is displayed for context but is not used by the fitted model. The model combines the weighted inputs and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
+      { question: 'Which inputs change the current risk?', answer: 'Age, sex, FSA-derived rurality, TBSA, inhalation injury, ICU use, ICU days, procedures, transfusion and housing status are used by the model. Length of stay is displayed but is not used by the fitted model.' },
       { question: 'Can TBSA include a decimal?', answer: 'Yes. Enter one decimal place, such as 12.3%. The model uses the entered TBSA value.' },
       { question: 'What does Share App send?', answer: 'Share App sends a link that opens MEMBA at rest in English. Share Data sends the selected figure example. On iPhone or iPad, the native share sheet can send the link through Messages or iMessage. On Android, native sharing depends on the browser and device; if it is unavailable, the app copies the link so it can be pasted into a message.' },
     ],
@@ -183,14 +155,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Total PRBC': 'Total PRBC',
       'Inhalation injury': 'Inhalation injury',
     },
-    locationOptions: {
-      'Head and neck': 'Head and neck',
-      Torso: 'Torso',
-      'Upper extremity': 'Upper extremity',
-      'Lower extremity': 'Lower extremity',
-      Genitalia: 'Genitalia',
-    },
-    locationLabels: { FSA: 'FSA (First three of postal code)', Inhalation: 'Inhalation', Rurality: 'Rurality', Mechanism: 'Mechanism', 'Anatomical location': 'Anatomical location' },
+    summaryLabels: { FSA: 'FSA (First three of postal code)', Inhalation: 'Inhalation', Rurality: 'Rurality', Mechanism: 'Mechanism' },
   },
   fr: {
     appTitle: 'Application de mortalité des brûlures',
@@ -199,10 +164,6 @@ const localeStrings: Record<Language, LocaleStrings> = {
     languages: { en: 'Anglais', fr: 'Français', es: 'Espagnol' },
     statusLabel: 'État',
     patientData: 'Données des facteurs du patient',
-    anatomicalLocation: 'Localisation anatomique',
-    selected: 'Sélectionné',
-    selectAll: 'Tout sélectionner',
-    clearAll: 'Tout effacer',
     calculate: 'Calculer le risque',
     back: 'Retour',
     examples: 'Exemples',
@@ -227,7 +188,6 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationTitle: 'Calcul du risque estimé',
     calculationBaseline: 'Interception du modèle',
     calculationTbsa: 'Valeur continue de TBSA',
-    calculationAnatomy: 'Indicateurs de localisation anatomique',
     calculationFormula: 'Règle exacte',
     calculationUsed: 'Utilisé par le modèle ajusté',
     calculationNotUsed: 'Affiché mais non utilisé par le modèle ajusté',
@@ -235,15 +195,14 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationThreshold: 'État à risque élevé à partir d’une probabilité prédite de 50 %',
     calculationNote: 'Il s’agit de la sortie du modèle de régression logistique ajusté et d’une estimation du risque de mortalité.',
     calculationFormulaText: 'Risque prédit = 1 / (1 + exp(−prédicteur linéaire)); le prédicteur linéaire est l’interception ajustée plus les valeurs traitées pondérées par les coefficients. Les valeurs numériques manquantes utilisent les médianes de la cohorte d’entraînement.',
-    calculationFieldsText: 'Variables du modèle : âge, sexe, ruralité, utilisation des soins intensifs, situation de logement, TBSA, interventions, transfusion, jours aux soins intensifs et lésion par inhalation. La durée de séjour et la localisation anatomique restent affichées à titre descriptif, mais ne sont pas utilisées par le modèle ajusté.',
+    calculationFieldsText: 'Variables du modèle : âge, sexe, ruralité, utilisation des soins intensifs, situation de logement, TBSA, interventions, transfusion, jours aux soins intensifs et lésion par inhalation. La durée de séjour reste affichée à titre descriptif, mais elle n’est pas utilisée par le modèle ajusté.',
     medianIfBlank: 'Médiane d’entraînement si vide',
-    noneSelected: 'Aucune sélection',
     faqTitle: 'FAQ/README',
     faqContact: 'README du projet :',
     faqItems: [
       { question: 'Que signifie le risque affiché ?', answer: 'Il s’agit du risque estimé de mortalité calculé par le modèle de régression logistique ajusté sans étiologie.' },
       { question: 'Comment l’âge diffère-t-il du score de Baux ?', answer: 'Le score de Baux ajoute l’âge comme une valeur linéaire. MEMBA modélise l’âge avec une fonction non linéaire flexible, de sorte que son effet estimé peut varier selon l’âge. Il s’agit d’une différence de modélisation et non d’une affirmation que le score de Baux est invalide; voir Osler et al. (2010) pour le score de Baux modifié.' },
-      { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les variables incluses dans le modèle, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs et certaines variables du séjour hospitalier. La durée de séjour et la localisation anatomique restent affichées à titre descriptif, mais ne sont pas utilisées par le modèle ajusté. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
+      { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les variables incluses dans le modèle, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs et certaines variables du séjour hospitalier. La durée de séjour reste affichée à titre descriptif, mais elle n’est pas utilisée par le modèle ajusté. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
       { question: 'Quelles entrées modifient le risque actuel ?', answer: 'Les variables affichées sont traitées par le modèle de régression logistique ajusté.' },
       { question: 'La TBSA peut-elle contenir une décimale ?', answer: 'Oui. Entrez une décimale, par exemple 12,3 %. Le modèle utilise la valeur de TBSA saisie.' },
       { question: 'Que partage le bouton Partager l’application ?', answer: 'Le bouton Partager l’application envoie un lien qui ouvre MEMBA au repos en anglais. Le bouton Partager les données envoie l’exemple illustré sélectionné. Sur iPhone ou iPad, la feuille de partage peut envoyer le lien par Messages ou iMessage. Sur Android, le partage dépend du navigateur et de l’appareil; s’il n’est pas disponible, l’application copie le lien pour qu’il soit collé dans un message.' },
@@ -261,14 +220,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Total PRBC': 'CGR totaux',
       'Inhalation injury': 'Lésion par inhalation',
     },
-    locationOptions: {
-      'Head and neck': 'Tête et cou',
-      Torso: 'Tronc',
-      'Upper extremity': 'Membre supérieur',
-      'Lower extremity': 'Membre inférieur',
-      Genitalia: 'Génitales',
-    },
-    locationLabels: { FSA: 'FSA (3 du code postal)', Inhalation: 'Inhalation', Rurality: 'Ruralité', Mechanism: 'Mécanisme', 'Anatomical location': 'Localisation anatomique' },
+    summaryLabels: { FSA: 'FSA (3 du code postal)', Inhalation: 'Inhalation', Rurality: 'Ruralité', Mechanism: 'Mécanisme' },
   },
   es: {
     appTitle: 'Aplicación de mortalidad por quemaduras',
@@ -277,10 +229,6 @@ const localeStrings: Record<Language, LocaleStrings> = {
     languages: { en: 'Inglés', fr: 'Francés', es: 'Español' },
     statusLabel: 'Estado',
     patientData: 'Datos de factores del paciente',
-    anatomicalLocation: 'Localización anatómica',
-    selected: 'Seleccionado',
-    selectAll: 'Seleccionar todo',
-    clearAll: 'Borrar todo',
     calculate: 'Calcular riesgo',
     back: 'Atrás',
     examples: 'Ejemplos',
@@ -305,7 +253,6 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationTitle: 'Cómo se calcula el riesgo estimado',
     calculationBaseline: 'Intercepto del modelo',
     calculationTbsa: 'Valor continuo de TBSA',
-    calculationAnatomy: 'Indicadores de localización anatómica',
     calculationFormula: 'Regla exacta',
     calculationUsed: 'Usado por el modelo ajustado',
     calculationNotUsed: 'Mostrado pero no usado por el modelo ajustado',
@@ -313,15 +260,14 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationThreshold: 'Estado de alto riesgo con una probabilidad predicha de 50% o más',
     calculationNote: 'Es el resultado del modelo de regresión logística ajustado y una estimación del riesgo de mortalidad.',
     calculationFormulaText: 'Riesgo predicho = 1 / (1 + exp(−predictor lineal)); el predictor lineal es la intersección ajustada más los valores procesados ponderados por los coeficientes. Los valores numéricos faltantes usan las medianas de la cohorte de entrenamiento.',
-    calculationFieldsText: 'Variables del modelo: edad, sexo, ruralidad, uso de UCI, situación de vivienda, TBSA, procedimientos, transfusión, días en UCI y lesión por inhalación. La duración de la estancia y la localización anatómica se muestran como contexto pero no se utilizan en el modelo ajustado.',
+    calculationFieldsText: 'Variables del modelo: edad, sexo, ruralidad, uso de UCI, situación de vivienda, TBSA, procedimientos, transfusión, días en UCI y lesión por inhalación. La duración de la estancia se muestra como contexto pero no se utiliza en el modelo ajustado.',
     medianIfBlank: 'Mediana de entrenamiento si está vacío',
-    noneSelected: 'Ninguno seleccionado',
     faqTitle: 'FAQ/README',
     faqContact: 'README del proyecto:',
     faqItems: [
       { question: '¿Qué significa el riesgo mostrado?', answer: 'Es el riesgo estimado de mortalidad calculado por el modelo de regresión logística ajustado sin etiología.' },
       { question: '¿Cómo difiere la edad del puntaje de Baux?', answer: 'El puntaje de Baux suma la edad como un valor lineal. MEMBA modela la edad con una función no lineal flexible, por lo que su efecto estimado puede variar según la edad. Esto es una diferencia de modelización y no afirma que el puntaje de Baux sea inválido; consulte Osler et al. (2010) para el puntaje de Baux modificado.' },
-      { question: '¿Cómo se calcula el riesgo estimado?', answer: 'La aplicación combina la información introducida sobre el paciente, incluida la edad, el tamaño de la quemadura, la lesión por inhalación, los cuidados intensivos, el curso hospitalario y la localización anatómica. El modelo ajustado asigna un peso a cada dato según su relación con la mortalidad en este estudio, combina la información ponderada y convierte el resultado en un porcentaje estimado. Los campos numéricos vacíos se reemplazan por la mediana de la cohorte de entrenamiento.' },
+      { question: '¿Cómo se calcula el riesgo estimado?', answer: 'La aplicación combina las variables incluidas en el modelo, como edad, tamaño de la quemadura, lesión por inhalación, cuidados intensivos y algunos datos de la hospitalización. La duración de la estancia se muestra como contexto, pero no se utiliza en el modelo ajustado. Los campos numéricos vacíos se reemplazan por la mediana de la cohorte de entrenamiento.' },
       { question: '¿Qué entradas cambian el riesgo actual?', answer: 'Las variables mostradas son procesadas por el modelo de regresión logística ajustado.' },
       { question: '¿TBSA puede incluir un decimal?', answer: 'Sí. Introduzca un decimal, por ejemplo 12.3 %. El modelo utiliza el valor de TBSA introducido.' },
       { question: '¿Qué comparte Compartir aplicación?', answer: 'Compartir aplicación envía un enlace que abre MEMBA en reposo y en inglés. Compartir datos envía el ejemplo ilustrado seleccionado. En iPhone o iPad, la hoja de compartir puede enviar el enlace mediante Mensajes o iMessage. En Android, el uso compartido depende del navegador y del dispositivo; si no está disponible, la aplicación copia el enlace para pegarlo en un mensaje.' },
@@ -339,14 +285,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Total PRBC': 'GR totales',
       'Inhalation injury': 'Lesión por inhalación',
     },
-    locationOptions: {
-      'Head and neck': 'Cabeza y cuello',
-      Torso: 'Tronco',
-      'Upper extremity': 'Extremidad superior',
-      'Lower extremity': 'Extremidad inferior',
-      Genitalia: 'Genitales',
-    },
-    locationLabels: { FSA: 'FSA', Inhalation: 'Inhalación', Rurality: 'Ruralidad', Mechanism: 'Mecanismo', 'Anatomical location': 'Localización anatómica' },
+    summaryLabels: { FSA: 'FSA', Inhalation: 'Inhalación', Rurality: 'Ruralidad', Mechanism: 'Mecanismo' },
   },
 }
 
@@ -427,13 +366,6 @@ function App() {
   const state: RiskState = query.get('state') === 'high'
     ? 'high'
     : 'low'
-  const [selectedLocations, setSelectedLocations] = useState<LocationOption[]>(() => {
-    const requested = query.get('locations')?.split(',') ?? []
-    const valid = requested.filter((item): item is LocationOption => locationOptions.includes(item as LocationOption))
-    if (valid.length) return valid
-    if (!query.has('state')) return []
-    return state === 'low' ? ['Upper extremity'] : ['Head and neck', 'Torso', 'Upper extremity', 'Lower extremity']
-  })
   const [featureValues, setFeatureValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(featureRows.map((item) => [
       item.label,
@@ -445,9 +377,9 @@ function App() {
     [state],
   )
   const appUrl = useMemo(() => `${window.location.origin}/`, [])
-  const locationImpact = useMemo(() => {
-    const hasPatientData = Object.values(featureValues).some(Boolean) || selectedLocations.length > 0
-    const probability = modelProbability(featureValues, selectedLocations)
+  const riskEstimate = useMemo(() => {
+    const hasPatientData = Object.values(featureValues).some(Boolean)
+    const probability = modelProbability(featureValues)
     const derivedState: RiskState = probability >= 0.5 ? 'high' : 'low'
     const riskScore = !hasCalculated || !hasPatientData ? null : Math.round(probability * 100)
 
@@ -455,12 +387,12 @@ function App() {
       state: derivedState,
       riskScore,
       score: riskScore === null ? '' : `${riskScore}%`,
-      baselinePoints: 0, tbsaPoints: 0, anatomyPoints: 0, riskPoints: 0,
+      baselinePoints: 0, tbsaPoints: 0, riskPoints: 0,
       formula: 'Predicted mortality = 1 / (1 + exp(−linear predictor)); missing inputs use training-cohort medians.',
       contributions: [
         [`Fitted model probability`, `${Math.round(probability * 100)}%`],
       ],
-      unusedFeatures: featureRows.map((item) => item.label).filter((label) => label !== 'TBSA' && !locationOptions.includes(label as LocationOption)),
+      unusedFeatures: featureRows.map((item) => item.label).filter((label) => label !== 'TBSA'),
       summary: [
         ['Age', featureValues.Age],
         ['TBSA', featureValues.TBSA ? `${featureValues.TBSA}%` : ''],
@@ -469,14 +401,9 @@ function App() {
         ['Rurality', featureValues.FSA ? deriveRurality(featureValues.FSA) : ''],
         ['Inhalation', featureValues['Inhalation injury']],
         ['ICU', featureValues.ICU],
-        ['Anatomical location', selectedLocations.length ? selectedLocations.join(', ') : 'None selected'],
       ].filter(([, value]) => value),
     }
-  }, [featureValues, hasCalculated, selectedLocations])
-
-  const localizedLocationSummary = selectedLocations.length
-    ? selectedLocations.map((item) => strings.locationOptions[item]).join(', ')
-    : language === 'fr' ? 'Aucune sélection' : language === 'es' ? 'Ninguno seleccionado' : 'None selected'
+  }, [featureValues, hasCalculated])
 
   async function copyText(text: string) {
     if (navigator.clipboard?.writeText) {
@@ -499,7 +426,7 @@ function App() {
   async function handleShare(kind: 'data' | 'app') {
     const payload =
       kind === 'data'
-        ? `${strings.appTitle} figure export (${locationImpact.state === 'low' ? strings.lowRisk : strings.highRisk}): ${figureUrl}`
+        ? `${strings.appTitle} figure export (${riskEstimate.state === 'low' ? strings.lowRisk : strings.highRisk}): ${figureUrl}`
         : `${strings.appTitle}: ${appUrl}`
 
     if (navigator.share) {
@@ -520,24 +447,10 @@ function App() {
     await copyText(payload)
   }
 
-  const allLocationsSelected = selectedLocations.length === locationOptions.length
-
-  function toggleLocation(option: LocationOption) {
-    setSelectedLocations((current) =>
-      current.includes(option) ? current.filter((item) => item !== option) : [...current, option],
-    )
-  }
-
-  function toggleAllLocations() {
-    setSelectedLocations((current) =>
-      current.length === locationOptions.length ? [] : [...locationOptions],
-    )
-  }
-
   return (
-    <main className={`shell shell--${locationImpact.state}`}>
+    <main className={`shell shell--${riskEstimate.state}`}>
       <section className="device">
-        <section className="phone" aria-label={`${!hasCalculated ? strings.readyTitle : strings[locationImpact.state === 'low' ? 'lowRisk' : 'highRisk']} ${strings.riskScreenLabel}`}>
+        <section className="phone" aria-label={`${!hasCalculated ? strings.readyTitle : strings[riskEstimate.state === 'low' ? 'lowRisk' : 'highRisk']} ${strings.riskScreenLabel}`}>
           <div className="topbar">
             <div>
               <h1>MEMBA</h1>
@@ -559,16 +472,16 @@ function App() {
               </div>
             </div>
           </div>
-          {hasCalculated ? <div className="hero-card" style={{ background: stateMeta[locationImpact.state].gradient }}>
+          {hasCalculated ? <div className="hero-card" style={{ background: stateMeta[riskEstimate.state].gradient }}>
             <div className="hero-card__ambient" />
-            <h2 className="hero-card__title">{locationImpact.state === 'low' ? strings.lowRisk : strings.highRisk}</h2>
+            <h2 className="hero-card__title">{riskEstimate.state === 'low' ? strings.lowRisk : strings.highRisk}</h2>
             <div
               className="score-ring"
-              aria-label={`${locationImpact.score} risk`}
-                style={{ ['--ring' as string]: locationImpact.riskScore === null ? '#d1d5db' : locationImpact.riskScore > 50 ? '#dc2626' : stateMeta[locationImpact.state].ring }}
+              aria-label={`${riskEstimate.score} risk`}
+                style={{ ['--ring' as string]: riskEstimate.riskScore === null ? '#d1d5db' : riskEstimate.riskScore > 50 ? '#dc2626' : stateMeta[riskEstimate.state].ring }}
               >
-              <div className="score-ring__inner" style={{ borderColor: locationImpact.riskScore === null ? 'rgba(17, 17, 17, 0.08)' : locationImpact.riskScore > 50 ? 'rgba(220, 38, 38, 0.14)' : stateMeta[locationImpact.state].ringSoft }}>
-                <span className="score-ring__value">{locationImpact.score || '—'}</span>
+              <div className="score-ring__inner" style={{ borderColor: riskEstimate.riskScore === null ? 'rgba(17, 17, 17, 0.08)' : riskEstimate.riskScore > 50 ? 'rgba(220, 38, 38, 0.14)' : stateMeta[riskEstimate.state].ringSoft }}>
+                <span className="score-ring__value">{riskEstimate.score || '—'}</span>
                 <span className="score-ring__label">{hasCalculated ? strings.scoreLabel : ''}</span>
               </div>
             </div>
@@ -577,7 +490,7 @@ function App() {
           <section className="feature-panel" aria-label={strings.patientData}>
             <div className="feature-list">
               {featureRows.map((item) => {
-                const value = featureValues[item.label] ?? (locationImpact.state === 'low' ? item.valueLow : item.valueHigh)
+                const value = featureValues[item.label] ?? (riskEstimate.state === 'low' ? item.valueLow : item.valueHigh)
                 return (
                   <article className="feature-row" key={item.label}>
                     <div className="feature-row__label">
@@ -629,45 +542,18 @@ function App() {
             </div>
           </section>
 
-          {hasCalculated && locationImpact.summary.length ? (
+          {hasCalculated && riskEstimate.summary.length ? (
             <section className="summary-panel" aria-label={strings.selectedPatientVariables}>
               <dl className="summary-grid">
-                {locationImpact.summary.map(([label, value]) => (
+                {riskEstimate.summary.map(([label, value]) => (
                   <div className="summary-grid__item" key={label}>
-                    <dt>{strings.locationLabels[label] ?? label}</dt>
+                    <dt>{strings.summaryLabels[label] ?? label}</dt>
                     <dd>{value}</dd>
                   </div>
                 ))}
               </dl>
             </section>
           ) : null}
-
-          <section className="location-panel" aria-label={strings.anatomicalLocation}>
-            <div className="summary-panel__heading">
-              <h3>{strings.anatomicalLocation}</h3>
-            </div>
-            <button type="button" className="location-panel__select-all" onClick={toggleAllLocations}>
-              {allLocationsSelected ? strings.clearAll : strings.selectAll}
-            </button>
-            <div className="location-panel__grid">
-              {locationOptions.map((option) => {
-                const checked = selectedLocations.includes(option)
-                return (
-                  <label className={checked ? 'location-chip is-checked' : 'location-chip'} key={option}>
-                    <input
-                      type="checkbox"
-                      role="switch"
-                      checked={checked}
-                      onChange={() => toggleLocation(option)}
-                    />
-                    <span>{strings.locationOptions[option]}</span>
-                    <strong>{checked ? 'Yes' : 'No'}</strong>
-                  </label>
-                )
-              })}
-            </div>
-            <p className="location-panel__summary">{strings.selected}: {localizedLocationSummary}</p>
-          </section>
 
           {!hasCalculated ? (
             <section className="example-panel" aria-label={strings.patientData}>

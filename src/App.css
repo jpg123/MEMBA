@@ -24,7 +24,6 @@
 .shell--dark .summary-panel,
 .shell--dark .note-panel,
 .shell--dark .feature-panel,
-.shell--dark .location-panel,
 .shell--dark .example-panel {
   background: #101a20;
   border-color: #e6f0ee;
@@ -36,8 +35,6 @@
 .shell--dark .mode-toggle__item,
 .shell--dark .summary-panel__badge,
 .shell--dark .feature-row,
-.shell--dark .location-chip,
-.shell--dark .location-panel__select-all,
 .shell--dark .action-row__button--secondary,
 .shell--dark .disclosure__button {
   border-color: #e6f0ee;
@@ -50,14 +47,12 @@
 .shell--dark .summary-grid__item dt,
 .shell--dark .feature-row__label small,
 .shell--dark .feature-row__value,
-.shell--dark .location-panel__summary,
 .shell--dark .note-panel p {
   color: #aab8c0;
 }
 
 .shell--dark .state-toggle__item,
 .shell--dark .mode-toggle__item,
-.shell--dark .location-chip,
 .shell--dark .summary-panel__badge {
   background: #101a20;
   color: #eef7f6;
@@ -65,8 +60,6 @@
 
 .shell--dark .state-toggle__item.is-active,
 .shell--dark .mode-toggle__item.is-active,
-.shell--dark .location-chip.is-checked,
-.shell--dark .location-panel__select-all,
 .shell--dark .action-row__button {
   background: #eef7f6;
   color: #081014;
@@ -300,7 +293,6 @@
 .summary-panel,
 .note-panel,
 .feature-panel,
-.location-panel,
 .example-panel {
   padding: 14px 16px;
   border: 2px solid #111;
@@ -320,15 +312,6 @@
 
 .example-panel .share-status {
   margin: 0;
-}
-
-.location-panel {
-  padding: 5px 10px 7px;
-  margin-top: 4px;
-}
-
-.location-panel .summary-panel__heading {
-  margin-bottom: 5px;
 }
 
 .summary-panel__heading {
@@ -511,53 +494,6 @@
 
 .feature-row__weight--high {
   background: #ffe0e5;
-}
-
-.location-panel__select-all {
-  width: 100%;
-  border: 2px solid #111;
-  background: #111;
-  color: #fff;
-  font: inherit;
-  font-weight: 700;
-  padding: 7px 10px;
-  margin-bottom: 6px;
-}
-
-.location-panel__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
-}
-
-.location-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 7px;
-  border: 2px solid #111;
-  background: #fff;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.location-chip input {
-  accent-color: #fff;
-  width: 14px;
-  height: 14px;
-  margin: 0;
-}
-
-.location-chip.is-checked {
-  background: #111;
-  color: #fff;
-}
-
-.location-panel__summary {
-  margin: 5px 0 0;
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: #4f5660;
 }
 
 .faq-panel {
@@ -804,10 +740,6 @@
     flex: 1;
   }
 
-  .location-chip {
-    width: 100%;
-    justify-content: flex-start;
-  }
 }
 
 .disclosure {

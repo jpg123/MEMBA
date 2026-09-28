@@ -10,11 +10,11 @@ It is for research, education and discussion. It does not replace clinical judgm
 
 1. Select a language: English, French or Spanish. The app name remains MEMBA.
 2. Enter the patient information available at the time of assessment.
-3. Enter the available model inputs. Length of stay and anatomical locations remain visible in the interface for context but do not affect the estimated risk.
+3. Enter the available model inputs. Length of stay is displayed as context but does not affect the estimated risk. Anatomical-location fields are not included in the app.
 4. Select **Calculate risk**.
 5. Review the estimated mortality risk and the information entered.
 
-The demonstration figures use Rule-of-Nines-compatible examples. The low-risk example uses 9%TBSA with one upper extremity selected. The high-risk example uses 81%TBSA from head and neck (9%), torso (18%), both upper extremities (18%) and both lower extremities (36%). The calculated-risk summary displays %TBSA and the selected anatomical locations. Anatomical location and length of stay are descriptive interface fields and are not model inputs.
+The demonstration figures use %TBSA values compatible with the Rule of Nines: 9% for the low-risk example and 81% for the high-risk example. The calculated-risk summary displays %TBSA. The model and interface do not use anatomical location. Length of stay is displayed for context but is not a model input.
 
 ## Submission examples
 
@@ -22,15 +22,15 @@ The following examples are the same image files used for the journal submission 
 
 ### Figure 2A-C MEMBA at-rest panels
 
-A horizontal three-panel black-and-white composite shows the MEMBA application before a risk calculation: English in panel A, French in panel B and Spanish in panel C. Each panel has a border and shows the input fields, anatomical-location controls, disclosure, and the GitHub: jpg123/MEMBA link.
+A horizontal three-panel black-and-white composite shows the MEMBA application before a risk calculation: English in panel A, French in panel B and Spanish in panel C. Each panel has a border and shows the input fields and the GitHub: jpg123/MEMBA link. Anatomical-location fields are not present.
 
-![Figure 3A-C MEMBA at-rest panels](at-rest-panels.png)
+![Figure 2A-C MEMBA at-rest panels](at-rest-panels.png)
 
 ### Figure 3A-B MEMBA risk examples
 
-Low-risk and high-risk MEMBA examples with the selected model covariates shown in panels A and B, respectively. Length of stay and anatomical location are displayed but are not included as model covariates.
+Low-risk and high-risk MEMBA examples with the selected model covariates shown in panels A and B, respectively. They use 9% and 81% TBSA, respectively, and the summary panel displays %TBSA. No anatomical-location fields are present; length of stay is displayed for context but is not a model covariate.
 
-![Figure 4A-B MEMBA risk examples](risk-panels.png)
+![Figure 3A-B MEMBA risk examples](risk-panels.png)
 
 ## Information used
 
@@ -46,7 +46,7 @@ The estimate uses:
 - Procedures (enter 0 when no procedure has occurred)
 - Total packed red blood cell units
 
-Length of stay and anatomical location are displayed as contextual information but are excluded from the fitted model.
+Anatomical location is not collected by the app. Length of stay is displayed as contextual information but is excluded from the fitted model.
 
 ## How the estimate is produced
 

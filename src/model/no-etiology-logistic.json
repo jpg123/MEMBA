@@ -12,7 +12,9 @@
     "location_genitalia"
   ],
   "descriptive_only_inputs": [
-    "Length_of_stay",
+    "Length_of_stay"
+  ],
+  "removed_app_inputs": [
     "Anatomical location"
   ],
   "features": [

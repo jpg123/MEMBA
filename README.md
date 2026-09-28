@@ -14,6 +14,36 @@ It is for research, education and discussion. It does not replace clinical judgm
 4. Select **Calculate risk**.
 5. Review the estimated mortality risk and the information entered.
 
+The demonstration figures use Rule-of-Nines-compatible examples. The low-risk example uses 9% TBSA with one upper extremity selected. The high-risk example uses 45% TBSA from head and neck (9%), torso (18%) and one lower extremity (18%). The calculated-risk summary displays both TBSA and the selected anatomical locations.
+
+## Submission examples
+
+The following examples are the same image files used for the journal submission figures.
+
+### Figure 3A MEMBA English at-rest screen
+
+The English MEMBA application is shown before a risk calculation, with the input fields and disclosure visible.
+
+![Figure 3A MEMBA English at-rest screen](at-rest.png)
+
+### Figure 3B MEMBA French at-rest screen
+
+The French MEMBA application is shown before a risk calculation, with the input fields and disclosure visible.
+
+![Figure 3B MEMBA French at-rest screen](at-rest-fr.png)
+
+### Figure 3C MEMBA low-risk example
+
+The MEMBA application displays a low-risk example after patient inputs are entered. The example uses 9% TBSA with the upper extremity selected, and the summary panel displays TBSA and the selected anatomical location.
+
+![Figure 3C MEMBA low-risk example](low-example.png)
+
+### Figure 3D MEMBA high-risk example
+
+The MEMBA application displays a high-risk example after patient inputs are entered. The example uses 45% TBSA from head and neck, torso and lower extremity selections, and the summary panel displays TBSA and the selected anatomical locations.
+
+![Figure 3D MEMBA high-risk example](high-example.png)
+
 The app can be used with information available near admission. Information such as ICU use, ICU days, procedures, transfusion and length of stay may become available later during hospitalization and can support reassessment.
 
 ## Information used
@@ -59,6 +89,6 @@ External validation at another burn centre remains outstanding. The displayed es
 
 ## Project information
 
-The application, fitted model and project documentation are maintained in the [MEMBER GitHub repository](https://github.com/jpg123/burn-mortality-MEMBER).
+The application, fitted model and project documentation are maintained in the [MEMBA GitHub repository](https://github.com/jpg123/MEMBA).
 
 The in-app **FAQ/README** provides the same user-facing information in a popup. Its content is currently maintained in English and will be translated after the English version is finalized.

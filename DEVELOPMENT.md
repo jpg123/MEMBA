@@ -45,4 +45,4 @@ Etiology is intentionally excluded from the model, app, tables and figures.
 
 The repository is private:
 
-https://github.com/jpg123/burn-mortality-MEMBER
+https://github.com/jpg123/MEMBA

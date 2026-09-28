@@ -68,7 +68,7 @@ type LocaleStrings = {
   locationLabels: Record<string, string>
 }
 
-const githubAppUrl = 'https://github.com/jpg123/burn-mortality-MEMBER'
+const githubAppUrl = 'https://github.com/jpg123/MEMBA'
 const githubReadmeUrl = `${githubAppUrl}/blob/main/README.md`
 
 function deriveRurality(fsa: string) {
@@ -172,7 +172,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       Age: 'Age',
       Sex: 'Sex',
       TBSA: 'TBSA',
-      FSA: 'First 3 MB postal',
+      FSA: 'FSA (First three of postal code)',
       ICU: 'ICU',
       'Days ICU': 'Days ICU',
       Unhoused: 'Unhoused',
@@ -188,7 +188,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Lower extremity': 'Lower extremity',
       Genitalia: 'Genitalia',
     },
-    locationLabels: { FSA: 'First 3 MB postal', Inhalation: 'Inhalation', Rurality: 'Rurality', Mechanism: 'Mechanism', 'Anatomical location': 'Anatomical location' },
+    locationLabels: { FSA: 'FSA (First three of postal code)', Inhalation: 'Inhalation', Rurality: 'Rurality', Mechanism: 'Mechanism', 'Anatomical location': 'Anatomical location' },
   },
   fr: {
     appTitle: 'Application de mortalité des brûlures',
@@ -249,7 +249,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       Age: 'Âge',
       Sex: 'Sexe',
       TBSA: 'TBSA',
-      FSA: 'Code postal',
+      FSA: 'FSA (3 du code postal)',
       ICU: 'USI',
       'Days ICU': 'Jours en USI',
       Unhoused: 'Sans logement',
@@ -265,7 +265,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       'Lower extremity': 'Membre inférieur',
       Genitalia: 'Génitales',
     },
-    locationLabels: { FSA: 'Code postal', Inhalation: 'Inhalation', Rurality: 'Ruralité', Mechanism: 'Mécanisme', 'Anatomical location': 'Localisation anatomique' },
+    locationLabels: { FSA: 'FSA (3 du code postal)', Inhalation: 'Inhalation', Rurality: 'Ruralité', Mechanism: 'Mécanisme', 'Anatomical location': 'Localisation anatomique' },
   },
   es: {
     appTitle: 'Aplicación de mortalidad por quemaduras',
@@ -326,7 +326,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
       Age: 'Edad',
       Sex: 'Sexo',
       TBSA: 'TBSA',
-      FSA: 'FSA',
+      FSA: 'FSA (3 del código postal)',
       ICU: 'UCI',
       'Days ICU': 'Días en UCI',
       Unhoused: 'Sin vivienda',
@@ -349,7 +349,9 @@ const localeStrings: Record<Language, LocaleStrings> = {
 const featureRows: FeatureItem[] = [
   { label: 'Age', valueLow: '34', valueHigh: '67', scale: 'Years' },
   { label: 'Sex', valueLow: 'Female', valueHigh: 'Male', scale: 'Binary' },
-  { label: 'TBSA', valueLow: '8%', valueHigh: '50%', scale: 'Per 10 percentage points' },
+  // Rule-of-Nines-compatible capture examples: 9% for one upper extremity
+  // and 45% for head/neck (9%) + torso (18%) + one lower extremity (18%).
+  { label: 'TBSA', valueLow: '9', valueHigh: '45', scale: 'Percent burned' },
   // FSA is used only to derive Rurality and is not an independent model feature.
   { label: 'FSA', valueLow: 'R3B', valueHigh: 'R0A', scale: '3 characters' },
   { label: 'ICU', valueLow: 'No', valueHigh: 'Yes' },
@@ -374,7 +376,7 @@ const stateMeta = {
     ringSoft: 'rgba(22, 101, 52, 0.14)',
     summary: [
       ['Age', '34 years'],
-      ['TBSA', '8%'],
+      ['TBSA', '9%'],
       ['Sex', 'Female'],
       ['Rural', 'No'],
       ['Inhalation', 'No'],
@@ -394,7 +396,7 @@ const stateMeta = {
     ringSoft: 'rgba(251, 113, 133, 0.14)',
     summary: [
       ['Age', '67 years'],
-      ['TBSA', '48%'],
+      ['TBSA', '45%'],
       ['Sex', 'Male'],
       ['Rural', 'Yes'],
       ['Inhalation', 'Yes'],
@@ -418,14 +420,16 @@ function App() {
   ))
   const [shareStatus, setShareStatus] = useState<string | null>(null)
   const [hasCalculated, setHasCalculated] = useState(() => query.has('state'))
-  const [selectedLocations, setSelectedLocations] = useState<LocationOption[]>(() => {
-    const requested = query.get('locations')?.split(',') ?? []
-    const valid = requested.filter((item): item is LocationOption => locationOptions.includes(item as LocationOption))
-    return valid.length ? valid : query.has('state') ? ['Torso'] : []
-  })
   const state: RiskState = query.get('state') === 'high'
     ? 'high'
     : 'low'
+  const [selectedLocations, setSelectedLocations] = useState<LocationOption[]>(() => {
+    const requested = query.get('locations')?.split(',') ?? []
+    const valid = requested.filter((item): item is LocationOption => locationOptions.includes(item as LocationOption))
+    if (valid.length) return valid
+    if (!query.has('state')) return []
+    return state === 'low' ? ['Upper extremity'] : ['Head and neck', 'Torso', 'Lower extremity']
+  })
   const [featureValues, setFeatureValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(featureRows.map((item) => [
       item.label,
@@ -455,12 +459,13 @@ function App() {
       unusedFeatures: featureRows.map((item) => item.label).filter((label) => label !== 'TBSA' && !locationOptions.includes(label as LocationOption)),
       summary: [
         ['Age', featureValues.Age],
-        ['TBSA', featureValues.TBSA],
+        ['TBSA', featureValues.TBSA ? `${featureValues.TBSA}%` : ''],
         ['Sex', featureValues.Sex],
         ['FSA', featureValues.FSA],
         ['Rurality', featureValues.FSA ? deriveRurality(featureValues.FSA) : ''],
         ['Inhalation', featureValues['Inhalation injury']],
         ['ICU', featureValues.ICU],
+        ['Anatomical location', selectedLocations.length ? selectedLocations.join(', ') : 'None selected'],
       ].filter(([, value]) => value),
     }
   }, [featureValues, hasCalculated, selectedLocations])

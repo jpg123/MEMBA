@@ -163,6 +163,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     faqContact: 'Project README:',
     faqItems: [
       { question: 'What does the displayed risk mean?', answer: 'It is the estimated mortality risk from the fitted no-etiology logistic-regression model.' },
+      { question: 'How does age differ from the Baux score?', answer: 'The Baux score adds age as a linear value. MEMBA models age with a flexible nonlinear function, so the estimated effect of age can change across the age range. This is a modeling distinction, not a claim that the Baux score is invalid; see Osler et al. (2010) for the modified Baux score.' },
       { question: 'How is the estimated risk calculated?', answer: 'The app combines the patient information entered, including age, burn size, inhalation injury, intensive care, hospital course and anatomical location. The fitted model gives each piece of information a weight based on its relationship with mortality in this study, combines the weighted information and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
       { question: 'Which inputs change the current risk?', answer: 'Age, sex, FSA-derived rurality, TBSA, inhalation injury, anatomical locations, ICU use, ICU days, length of stay, procedures, transfusion and housing status are used by the model.' },
       { question: 'Can TBSA include a decimal?', answer: 'Yes. Enter one decimal place, such as 12.3%. The model uses the entered TBSA value.' },
@@ -240,6 +241,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     faqContact: 'README du projet :',
     faqItems: [
       { question: 'Que signifie le risque affiché ?', answer: 'Il s’agit du risque estimé de mortalité calculé par le modèle de régression logistique ajusté sans étiologie.' },
+      { question: 'Comment l’âge diffère-t-il du score de Baux ?', answer: 'Le score de Baux ajoute l’âge comme une valeur linéaire. MEMBA modélise l’âge avec une fonction non linéaire flexible, de sorte que son effet estimé peut varier selon l’âge. Il s’agit d’une différence de modélisation et non d’une affirmation que le score de Baux est invalide; voir Osler et al. (2010) pour le score de Baux modifié.' },
       { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les informations saisies sur le patient, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs, le déroulement de l’hospitalisation et la localisation anatomique. Le modèle ajusté attribue un poids à chaque information selon sa relation avec la mortalité dans cette étude, combine ces informations pondérées et convertit le résultat en pourcentage estimé. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
       { question: 'Quelles entrées modifient le risque actuel ?', answer: 'Les variables affichées sont traitées par le modèle de régression logistique ajusté.' },
       { question: 'La TBSA peut-elle contenir une décimale ?', answer: 'Oui. Entrez une décimale, par exemple 12,3 %. Le modèle utilise la valeur de TBSA saisie.' },
@@ -317,6 +319,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     faqContact: 'README del proyecto:',
     faqItems: [
       { question: '¿Qué significa el riesgo mostrado?', answer: 'Es el riesgo estimado de mortalidad calculado por el modelo de regresión logística ajustado sin etiología.' },
+      { question: '¿Cómo difiere la edad del puntaje de Baux?', answer: 'El puntaje de Baux suma la edad como un valor lineal. MEMBA modela la edad con una función no lineal flexible, por lo que su efecto estimado puede variar según la edad. Esto es una diferencia de modelización y no afirma que el puntaje de Baux sea inválido; consulte Osler et al. (2010) para el puntaje de Baux modificado.' },
       { question: '¿Cómo se calcula el riesgo estimado?', answer: 'La aplicación combina la información introducida sobre el paciente, incluida la edad, el tamaño de la quemadura, la lesión por inhalación, los cuidados intensivos, el curso hospitalario y la localización anatómica. El modelo ajustado asigna un peso a cada dato según su relación con la mortalidad en este estudio, combina la información ponderada y convierte el resultado en un porcentaje estimado. Los campos numéricos vacíos se reemplazan por la mediana de la cohorte de entrenamiento.' },
       { question: '¿Qué entradas cambian el riesgo actual?', answer: 'Las variables mostradas son procesadas por el modelo de regresión logística ajustado.' },
       { question: '¿TBSA puede incluir un decimal?', answer: 'Sí. Introduzca un decimal, por ejemplo 12.3 %. El modelo utiliza el valor de TBSA introducido.' },

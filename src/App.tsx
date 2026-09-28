@@ -157,7 +157,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationThreshold: 'High-risk state at a predicted probability of 50% or greater',
     calculationNote: 'This is the fitted logistic-regression model output using the available app inputs. It is an estimated mortality risk, not a clinical decision rule.',
     calculationFormulaText: 'Predicted risk = 1 / (1 + exp(−linear predictor)); the linear predictor is the fitted intercept plus the coefficient-weighted processed inputs. Missing numeric values use training-cohort medians.',
-    calculationFieldsText: 'Model inputs: age, sex, rurality, ICU use, housing status, TBSA, length of stay, procedures, transfusion, ICU days and inhalation injury. Anatomical location is displayed but is not used by the fitted model.',
+    calculationFieldsText: 'Model inputs: age, sex, rurality, ICU use, housing status, TBSA, procedures, transfusion, ICU days and inhalation injury. Length of stay and anatomical location are displayed for context but are not used by the fitted model.',
     medianIfBlank: 'Training median if blank',
     noneSelected: 'None selected',
     faqTitle: 'FAQ/README',
@@ -165,8 +165,8 @@ const localeStrings: Record<Language, LocaleStrings> = {
     faqItems: [
       { question: 'What does the displayed risk mean?', answer: 'It is the estimated mortality risk from the fitted no-etiology logistic-regression model.' },
       { question: 'How does age differ from the Baux score?', answer: 'The Baux score adds age as a linear value. MEMBA models age with a flexible nonlinear function, so the estimated effect of age can change across the age range. This is a modeling distinction, not a claim that the Baux score is invalid; see Osler et al. (2010) for the modified Baux score.' },
-      { question: 'How is the estimated risk calculated?', answer: 'The app combines the model inputs entered, including age, burn size, inhalation injury, intensive care and hospital course. Anatomical location remains displayed for context but is not used by the fitted model. The model combines the weighted inputs and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
-      { question: 'Which inputs change the current risk?', answer: 'Age, sex, FSA-derived rurality, TBSA, inhalation injury, ICU use, ICU days, length of stay, procedures, transfusion and housing status are used by the model. Anatomical location is displayed but is not used by the fitted model.' },
+      { question: 'How is the estimated risk calculated?', answer: 'The app combines the model inputs entered, including age, burn size, inhalation injury, intensive care and selected hospital-course variables. Length of stay and anatomical location remain displayed for context but are not used by the fitted model. The model combines the weighted inputs and converts the result into an estimated percentage. Blank numeric fields are replaced with the median value from the training cohort.' },
+      { question: 'Which inputs change the current risk?', answer: 'Age, sex, FSA-derived rurality, TBSA, inhalation injury, ICU use, ICU days, procedures, transfusion and housing status are used by the model. Length of stay and anatomical location are displayed but are not used by the fitted model.' },
       { question: 'Can TBSA include a decimal?', answer: 'Yes. Enter one decimal place, such as 12.3%. The model uses the entered TBSA value.' },
       { question: 'What does Share App send?', answer: 'Share App sends a link that opens MEMBA at rest in English. Share Data sends the selected figure example. On iPhone or iPad, the native share sheet can send the link through Messages or iMessage. On Android, native sharing depends on the browser and device; if it is unavailable, the app copies the link so it can be pasted into a message.' },
     ],
@@ -235,7 +235,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationThreshold: 'État à risque élevé à partir d’une probabilité prédite de 50 %',
     calculationNote: 'Il s’agit de la sortie du modèle de régression logistique ajusté et d’une estimation du risque de mortalité.',
     calculationFormulaText: 'Risque prédit = 1 / (1 + exp(−prédicteur linéaire)); le prédicteur linéaire est l’interception ajustée plus les valeurs traitées pondérées par les coefficients. Les valeurs numériques manquantes utilisent les médianes de la cohorte d’entraînement.',
-    calculationFieldsText: 'Variables du modèle : âge, sexe, ruralité, utilisation des soins intensifs, situation de logement, TBSA, durée de séjour, interventions, transfusion, jours aux soins intensifs, lésion par inhalation et localisation anatomique.',
+    calculationFieldsText: 'Variables du modèle : âge, sexe, ruralité, utilisation des soins intensifs, situation de logement, TBSA, interventions, transfusion, jours aux soins intensifs et lésion par inhalation. La durée de séjour et la localisation anatomique restent affichées à titre descriptif, mais ne sont pas utilisées par le modèle ajusté.',
     medianIfBlank: 'Médiane d’entraînement si vide',
     noneSelected: 'Aucune sélection',
     faqTitle: 'FAQ/README',
@@ -243,7 +243,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     faqItems: [
       { question: 'Que signifie le risque affiché ?', answer: 'Il s’agit du risque estimé de mortalité calculé par le modèle de régression logistique ajusté sans étiologie.' },
       { question: 'Comment l’âge diffère-t-il du score de Baux ?', answer: 'Le score de Baux ajoute l’âge comme une valeur linéaire. MEMBA modélise l’âge avec une fonction non linéaire flexible, de sorte que son effet estimé peut varier selon l’âge. Il s’agit d’une différence de modélisation et non d’une affirmation que le score de Baux est invalide; voir Osler et al. (2010) pour le score de Baux modifié.' },
-      { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les informations saisies sur le patient, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs, le déroulement de l’hospitalisation et la localisation anatomique. Le modèle ajusté attribue un poids à chaque information selon sa relation avec la mortalité dans cette étude, combine ces informations pondérées et convertit le résultat en pourcentage estimé. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
+      { question: 'Comment le risque estimé est-il calculé ?', answer: 'L’application combine les variables incluses dans le modèle, notamment l’âge, la taille de la brûlure, la lésion par inhalation, les soins intensifs et certaines variables du séjour hospitalier. La durée de séjour et la localisation anatomique restent affichées à titre descriptif, mais ne sont pas utilisées par le modèle ajusté. Les champs numériques vides sont remplacés par la valeur médiane de la cohorte d’entraînement.' },
       { question: 'Quelles entrées modifient le risque actuel ?', answer: 'Les variables affichées sont traitées par le modèle de régression logistique ajusté.' },
       { question: 'La TBSA peut-elle contenir une décimale ?', answer: 'Oui. Entrez une décimale, par exemple 12,3 %. Le modèle utilise la valeur de TBSA saisie.' },
       { question: 'Que partage le bouton Partager l’application ?', answer: 'Le bouton Partager l’application envoie un lien qui ouvre MEMBA au repos en anglais. Le bouton Partager les données envoie l’exemple illustré sélectionné. Sur iPhone ou iPad, la feuille de partage peut envoyer le lien par Messages ou iMessage. Sur Android, le partage dépend du navigateur et de l’appareil; s’il n’est pas disponible, l’application copie le lien pour qu’il soit collé dans un message.' },
@@ -313,7 +313,7 @@ const localeStrings: Record<Language, LocaleStrings> = {
     calculationThreshold: 'Estado de alto riesgo con una probabilidad predicha de 50% o más',
     calculationNote: 'Es el resultado del modelo de regresión logística ajustado y una estimación del riesgo de mortalidad.',
     calculationFormulaText: 'Riesgo predicho = 1 / (1 + exp(−predictor lineal)); el predictor lineal es la intersección ajustada más los valores procesados ponderados por los coeficientes. Los valores numéricos faltantes usan las medianas de la cohorte de entrenamiento.',
-    calculationFieldsText: 'Variables del modelo: edad, sexo, ruralidad, uso de UCI, situación de vivienda, TBSA, duración de la estancia, procedimientos, transfusión, días en UCI y lesión por inhalación. La localización anatómica se muestra pero no se utiliza en el modelo ajustado.',
+    calculationFieldsText: 'Variables del modelo: edad, sexo, ruralidad, uso de UCI, situación de vivienda, TBSA, procedimientos, transfusión, días en UCI y lesión por inhalación. La duración de la estancia y la localización anatómica se muestran como contexto pero no se utilizan en el modelo ajustado.',
     medianIfBlank: 'Mediana de entrenamiento si está vacío',
     noneSelected: 'Ninguno seleccionado',
     faqTitle: 'FAQ/README',
@@ -354,8 +354,8 @@ const featureRows: FeatureItem[] = [
   { label: 'Age', valueLow: '34', valueHigh: '67', scale: 'Years' },
   { label: 'Sex', valueLow: 'Female', valueHigh: 'Male', scale: 'Binary' },
   // Rule-of-Nines-compatible capture examples: 9% for one upper extremity
-  // and 45% for head/neck (9%) + torso (18%) + one lower extremity (18%).
-  { label: 'TBSA', valueLow: '9', valueHigh: '45', scale: 'Percent burned' },
+  // and 81% for head/neck (9%) + torso (18%) + both upper (18%) and lower (36%) extremities.
+  { label: 'TBSA', valueLow: '9', valueHigh: '81', scale: 'Percent burned' },
   // FSA is used only to derive Rurality and is not an independent model feature.
   { label: 'FSA', valueLow: 'R3B', valueHigh: 'R0A', scale: '3 characters' },
   { label: 'ICU', valueLow: 'No', valueHigh: 'Yes' },
@@ -432,7 +432,7 @@ function App() {
     const valid = requested.filter((item): item is LocationOption => locationOptions.includes(item as LocationOption))
     if (valid.length) return valid
     if (!query.has('state')) return []
-    return state === 'low' ? ['Upper extremity'] : ['Head and neck', 'Torso', 'Lower extremity']
+    return state === 'low' ? ['Upper extremity'] : ['Head and neck', 'Torso', 'Upper extremity', 'Lower extremity']
   })
   const [featureValues, setFeatureValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(featureRows.map((item) => [
